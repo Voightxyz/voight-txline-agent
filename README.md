@@ -142,6 +142,13 @@ Attesting your own picks needs any funded Solana keypair
 ~0.000005 SOL). The tool is standalone: it reads any agent's pick ledger and
 touches nothing else.
 
+The on-chain memo is human-readable — the prediction is legible directly on a
+block explorer, with the hash guaranteeing it can't be backdated or altered:
+
+```
+voight-pick:<sha256> | France to win @58% — World Cup 2026 Third-Place: France vs England (2026-07-17)
+```
+
 Verifiable data in, verifiable predictions out.
 
 ## Track record
