@@ -72,6 +72,13 @@ persistent ledger (Brier-scored: the agent's track record is auditable, not
 claimed). Agent identity is registered on-chain (Metaplex MPL Agent Registry,
 Solana mainnet): the same wallet that pays our TxLINE subscription.
 
+## Track record
+
+**Development run (July 9-15, 2026): 7 for 7.** During development, our
+prediction agent called seven consecutive winners across World Cup knockouts
+and MLB moneylines, including **Spain over France against a 28.5% market
+price** (the referee factor it flagged decided the opening goal).
+
 ## Team
 
 Built by [Voight](https://voight.xyz): autonomous agents, deployed in minutes.
