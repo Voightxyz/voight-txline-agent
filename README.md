@@ -163,11 +163,6 @@ arrive on Telegram with a market card. Agent identity is registered on-chain
 Anyone can deploy an equivalent agent at [agent.voight.xyz](https://agent.voight.xyz)
 in about two minutes; the txline skill ships in the platform image.
 
-**Judges and reviewers: deploy your own agent, free.** We reserved 15 free
-slots for the hackathon at
-[agent.voight.xyz/claim/txline](https://agent.voight.xyz/claim/txline). Pick
-the Prediction template and ask it to scan the World Cup markets.
-
 ## Repository layout
 
 | Path | What it is |
