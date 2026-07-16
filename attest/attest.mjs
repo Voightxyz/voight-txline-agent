@@ -47,6 +47,16 @@ function canonical(value) {
   return JSON.stringify(value);
 }
 
+// The attestation covers the immutable PREDICTION CORE — what was predicted and
+// when — not mutable settlement fields (status/odds/settled change after the
+// event and must not invalidate the anchor). Both the on-chain writer and this
+// verifier hash exactly this projection.
+function core(entry) {
+  const c = { id: entry.id, date: entry.date, market: entry.market, pick: entry.pick };
+  if (typeof entry.prob === "number") c.prob = entry.prob;
+  return c;
+}
+
 function pickEntry(ledgerPath, pickId) {
   const ledger = JSON.parse(readFileSync(ledgerPath, "utf8"));
   const entry = ledger.find((e) => String(e.id) === String(pickId));
@@ -54,7 +64,7 @@ function pickEntry(ledgerPath, pickId) {
   return entry;
 }
 
-const hashOf = (entry) => createHash("sha256").update(canonical(entry)).digest("hex");
+const hashOf = (entry) => createHash("sha256").update(canonical(core(entry))).digest("hex");
 
 async function attest(ledgerPath, pickId) {
   const keypairPath = process.env.ATTEST_KEYPAIR;
