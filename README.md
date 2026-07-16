@@ -146,7 +146,7 @@ The on-chain memo is human-readable — the prediction is legible directly on a
 block explorer, with the hash guaranteeing it can't be backdated or altered:
 
 ```
-voight-pick:<sha256> | France to win @58% — World Cup 2026 Third-Place: France vs England (2026-07-17)
+voight-pick:<sha256> | France to win @58% · World Cup 2026 Third-Place: France vs England (2026-07-17)
 ```
 
 Verifiable data in, verifiable predictions out.

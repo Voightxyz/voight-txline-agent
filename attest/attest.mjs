@@ -80,7 +80,7 @@ async function attest(ledgerPath, pickId) {
   // cosmetic. `|` is stripped from user fields (it's our field delimiter).
   const clean = (s) => String(s).replace(/[|]/g, "/").slice(0, 80);
   const probPart = typeof entry.prob === "number" ? ` @${Math.round(entry.prob * 100)}%` : "";
-  const memo = `${PREFIX}:${hash} | ${clean(entry.pick)}${probPart} — ${clean(entry.market)} (${clean(entry.date)})`;
+  const memo = `${PREFIX}:${hash} | ${clean(entry.pick)}${probPart} · ${clean(entry.market)} (${clean(entry.date)})`;
 
   const connection = new Connection(RPC, "confirmed");
   const ix = new TransactionInstruction({
