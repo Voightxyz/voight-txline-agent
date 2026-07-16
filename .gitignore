@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .DS_Store
+attest/node_modules/
+attest/package-lock.json

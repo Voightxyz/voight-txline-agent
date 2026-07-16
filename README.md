@@ -123,6 +123,26 @@ by anyone, not claimed by us:
   (timestamp + stated probability) and Brier-scored once the event settles.
   The track record is an artifact you can inspect, not a screenshot.
 
+## On-chain pick attestation
+
+TxODDS anchors the sports data on Solana to make it verifiable. We close the
+circle: **the agent's predictions get anchored too.** `attest/attest.mjs` hashes
+a ledger entry (canonical JSON, SHA-256) and records it in a Solana memo
+transaction, so a pick provably existed before the event. Verification needs no
+trust in us:
+
+```bash
+cd attest && npm install
+node attest.mjs verify <ledger.json> <pickId> <txSig>   # recomputes the hash and compares on-chain
+```
+
+Attesting your own picks needs any funded Solana keypair
+(`ATTEST_KEYPAIR=path node attest.mjs attest <ledger.json> <pickId>`, fee
+~0.000005 SOL). The tool is standalone: it reads any agent's pick ledger and
+touches nothing else.
+
+Verifiable data in, verifiable predictions out.
+
 ## Track record
 
 **Development run (July 9-15, 2026): 7 for 7.** During development, our
@@ -154,9 +174,10 @@ the Prediction template and ask it to scan the World Cup markets.
 | `detector/sharp_detect.py` | The deterministic Sharp Movement Detector. No LLM in the loop. |
 | `detector/txline_client.py` | Minimal TxLINE API client (guest-JWT auto-renewal + API token auth). |
 | `captures/` | The full real SSE capture from the semifinal used for calibration. |
+| `attest/` | Standalone on-chain pick attestation (hash a ledger entry into a Solana memo). |
 | `docs/TECHNICAL.md` | Architecture, exact TxLINE endpoints used, detection math, ops notes. |
 | `docs/API-FEEDBACK.md` | Honest feedback on the TxLINE API from building this. |
-| `docs/SKILL.md` | The hermes skill file the deployed agent loads. |
+|  `docs/SKILL.md` | The hermes skill file the deployed agent loads. |
 
 ## Roadmap
 
