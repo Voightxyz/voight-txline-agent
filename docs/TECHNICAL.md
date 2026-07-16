@@ -63,7 +63,7 @@ fixture 18241006): 1,773 odds events, 32 series. The detector fired **exactly
 regulation ended 1-1, and nothing else. Reproduce:
 
 ```bash
-python3 detector/sharp_detect.py replay captures/sample-odds-stream.jsonl
+python3 detector/sharp_detect.py replay captures/odds-stream-semifinal-20260715.jsonl
 python3 detector/sharp_detect.py params
 ```
 

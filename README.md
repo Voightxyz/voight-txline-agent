@@ -18,7 +18,7 @@ auditable calibration ledger.
 | `docs/SKILL.md` | The hermes skill file the deployed agent loads (data-faucet style). |
 | `docs/TECHNICAL.md` | Architecture, exact TxLINE endpoints used, detection math, calibration data. |
 | `docs/API-FEEDBACK.md` | Our feedback on the TxLINE API from building this. |
-| `captures/` | Sample of the real SSE capture from the England vs Argentina semifinal used for calibration. |
+| `captures/` | The full real SSE capture (755 KB, 1,773 events) from the England vs Argentina semifinal used for calibration. |
 
 ## The detector in 20 seconds
 
@@ -35,7 +35,7 @@ twice (the violent repricing of *under 3.5 goals*, +10.7 pts, z≈18, as
 regulation ended 1-1) and stayed silent through normal drift. Run it yourself:
 
 ```bash
-python3 detector/sharp_detect.py replay captures/sample-odds-stream.jsonl
+python3 detector/sharp_detect.py replay captures/odds-stream-semifinal-20260715.jsonl
 ```
 
 ## Verify it yourself (2 minutes, no keys needed)
@@ -46,7 +46,7 @@ Python standard library only (3.10+):
 ```bash
 git clone https://github.com/Voightxyz/voight-txline-agent
 cd voight-txline-agent
-python3 detector/sharp_detect.py replay captures/sample-odds-stream.jsonl
+python3 detector/sharp_detect.py replay captures/odds-stream-semifinal-20260715.jsonl
 python3 detector/sharp_detect.py params
 ```
 
