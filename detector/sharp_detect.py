@@ -19,9 +19,10 @@ semifinal capture (goals produced 8-25 pt moves inside 120 s; normal drift
 stayed < 2 pts / 120 s on 1X2 markets).
 
 Usage (JSON on stdout):
-  sharp_detect.py scan <fixtureId>       # live: fetch updates via txline_client, detect
-  sharp_detect.py replay <capture.jsonl> # backtest a recorded SSE capture file
-  sharp_detect.py params                 # print active parameters
+  sharp_detect.py scan <fixtureId>            # live: fetch updates via txline_client, detect
+  sharp_detect.py watch <fixtureId> [seconds] # autonomous loop: scan every N seconds (default 60)
+  sharp_detect.py replay <capture.jsonl>      # backtest a recorded SSE capture file
+  sharp_detect.py params                      # print active parameters
 """
 from __future__ import annotations
 
@@ -160,6 +161,28 @@ def cmd_scan(fixture_id: int) -> None:
     print(json.dumps({"fixtureId": fixture_id, "eventsScanned": len(events), "alerts": alerts}))
 
 
+def cmd_watch(fixture_id: int, interval_s: int = 60) -> None:
+    """Autonomous monitoring loop: scan every `interval_s` seconds, print each new
+    alert as a JSON line the moment it fires (the per-series debounce prevents
+    repeats), keep going until interrupted. Fully unattended by design."""
+    from txline_client import get
+
+    print(json.dumps({"watching": fixture_id, "intervalSeconds": interval_s}), flush=True)
+    state = _load_state()
+    while True:
+        started = time.time()
+        try:
+            events = get(f"/odds/updates/{fixture_id}") or []
+            for alert in _detect(_series_from_events(events), state):
+                print(json.dumps(alert), flush=True)
+            _save_state(state)
+        except SystemExit:
+            raise
+        except Exception as e:  # noqa: BLE001 — a feed hiccup must not kill the watch
+            print(json.dumps({"watchError": f"{type(e).__name__}: {e}"}), flush=True)
+        time.sleep(max(1.0, interval_s - (time.time() - started)))
+
+
 def cmd_replay(path: str) -> None:
     """Backtest over a recorded SSE capture (JSONL of {"ts","raw":[lines]})."""
     events = []
@@ -200,6 +223,8 @@ def cmd_replay(path: str) -> None:
 if __name__ == "__main__":
     if len(sys.argv) >= 3 and sys.argv[1] == "scan":
         cmd_scan(int(sys.argv[2]))
+    elif len(sys.argv) >= 3 and sys.argv[1] == "watch":
+        cmd_watch(int(sys.argv[2]), int(sys.argv[3]) if len(sys.argv) > 3 else 60)
     elif len(sys.argv) >= 3 and sys.argv[1] == "replay":
         cmd_replay(sys.argv[2])
     elif len(sys.argv) >= 2 and sys.argv[1] == "params":
@@ -210,5 +235,5 @@ if __name__ == "__main__":
             "watchTypes": sorted(WATCH_TYPES),
         }))
     else:
-        print(json.dumps({"error": "usage: sharp_detect.py scan <fixtureId> | replay <file.jsonl> | params"}))
+        print(json.dumps({"error": "usage: sharp_detect.py scan <fixtureId> | watch <fixtureId> [seconds] | replay <file.jsonl> | params"}))
         sys.exit(2)

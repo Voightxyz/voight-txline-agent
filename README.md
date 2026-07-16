@@ -81,8 +81,13 @@ Cup tier (one on-chain transaction; see
 ```bash
 export TXLINE_API_TOKEN=<your token>
 python3 detector/txline_client.py fixtures
-python3 detector/sharp_detect.py scan <fixtureId>
+python3 detector/sharp_detect.py scan <fixtureId>            # one-shot scan
+python3 detector/sharp_detect.py watch <fixtureId> 60        # autonomous 60-second loop
 ```
+
+`watch` is the unattended mode: it scans every 60 seconds and prints each new
+alert as a JSON line the moment it fires. Leave it running during a live match
+(the World Cup final is July 19) and it needs no human input at all.
 
 Our on-chain subscription: [`21jNAk2y…C5su4`](https://solscan.io/tx/21jNAk2yYp7u7Ua1wTSRNMh9Mhw239cjAdLLkth4YHSr9pKpwsdr5aN8Whmhynnk2FcFufwcBbMsE6pMx8rC5su4)
 (Service Level 12, real-time, paid by the same wallet that registers our
@@ -136,6 +141,11 @@ arrive on Telegram with a market card. Agent identity is registered on-chain
 
 Anyone can deploy an equivalent agent at [agent.voight.xyz](https://agent.voight.xyz)
 in about two minutes; the txline skill ships in the platform image.
+
+**Judges and reviewers: deploy your own agent, free.** We reserved 15 free
+slots for the hackathon at
+[agent.voight.xyz/claim/txline](https://agent.voight.xyz/claim/txline). Pick
+the Prediction template and ask it to scan the World Cup markets.
 
 ## Repository layout
 
