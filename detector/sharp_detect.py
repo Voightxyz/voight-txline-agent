@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sharp Movement Detector — deterministic detection of abrupt implied-probability
+"""Sharp Movement Detector: deterministic detection of abrupt implied-probability
 moves in TxLINE StablePrice (demargined) odds. No LLM math: this script IS the
 detection; the agent only narrates what it returns.
 
@@ -11,7 +11,7 @@ Method (documented for judges):
     3. Volatility baseline sigma = stdev of successive |ΔPct| over the BASELINE_S
        window preceding the jump window (minimum MIN_POINTS samples).
     4. ALERT when delta >= MIN_DELTA_PTS  AND  delta >= Z_THRESHOLD * sigma
-       (both conditions — absolute size AND abnormality vs the market's own noise).
+       (both conditions: absolute size AND abnormality vs the market's own noise).
     5. Debounce: the same series never re-alerts within DEBOUNCE_S.
 
 Parameters below were calibrated on the real England vs Argentina 2026 WC

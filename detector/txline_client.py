@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TxLINE data client — cryptographically verifiable sports data (TxODDS on Solana).
+"""TxLINE data client: cryptographically verifiable sports data (TxODDS on Solana).
 
 Auth model: a long-lived API token (env TXLINE_API_TOKEN, minted by an on-chain
 subscription) + a short-lived guest JWT fetched automatically and cached; on 401
@@ -35,7 +35,7 @@ def _fail(msg: str, code: int = 1):
 def _api_token() -> str:
     tok = os.environ.get("TXLINE_API_TOKEN", "").strip()
     if not tok:
-        _fail("TXLINE_API_TOKEN is not set — TxLINE access is unavailable in this environment")
+        _fail("TXLINE_API_TOKEN is not set: TxLINE access is unavailable in this environment")
     return tok
 
 
@@ -102,7 +102,7 @@ def main(argv: list[str]) -> None:
     elif cmd == "historical" and len(argv) == 5:
         out = get(f"/odds/updates/{int(argv[2])}/{int(argv[3])}/{int(argv[4])}")
     else:
-        _fail("unknown command — run with no args for usage", 2)
+        _fail("unknown command: run with no args for usage", 2)
     print(json.dumps(out))
 
 

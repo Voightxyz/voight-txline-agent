@@ -1,4 +1,4 @@
-# Technical documentation — Sharp Movement Detector on Voight
+# Technical documentation: Sharp Movement Detector on Voight
 
 ## Architecture
 
@@ -18,7 +18,7 @@ TxLINE (Solana mainnet)                       Voight platform (production)
                                               scheduler)   Telegram + market card
 ```
 
-- **Detection is deterministic** (`sharp_detect.py`) — the LLM never does market
+- **Detection is deterministic** (`sharp_detect.py`): the LLM never does market
   math. The agent narrates alerts and adds context via web research (Tavily).
 - **Identity on-chain**: the agent is registered in the Metaplex MPL Agent
   Registry on Solana mainnet, paid by the same wallet as the TxLINE
@@ -49,7 +49,7 @@ from `Pct[]` (demargined implied probability, percentage points):
 1. **Jump**: `Δ = |Pct(t) − Pct(t − W)|` with `W = 120 s`.
 2. **Noise baseline**: `σ` = stdev of successive `|ΔPct|` over the 600 s
    preceding the jump window (≥ 5 samples required).
-3. **Alert** ⇔ `Δ ≥ 5 pts` **AND** `Δ ≥ 3σ` — an absolute floor so tiny markets
+3. **Alert** ⇔ `Δ ≥ 5 pts` **AND** `Δ ≥ 3σ`: an absolute floor so tiny markets
    can't alert on noise, and a relative test so calm markets alert on genuinely
    abnormal moves.
 4. **Debounce**: a series stays quiet 300 s after alerting.
@@ -59,8 +59,8 @@ from `Pct[]` (demargined implied probability, percentage points):
 ### Calibration on real data
 Recorded the live SSE feed during England vs Argentina (2026 WC semifinal,
 fixture 18241006): 1,773 odds events, 32 series. The detector fired **exactly
-2 alerts** — the `under/over 3.5 goals` repricing (±10.7 pts, z ≈ 18) as
-regulation ended 1-1 — and nothing else. Reproduce:
+2 alerts**, the `under/over 3.5 goals` repricing (±10.7 pts, z ≈ 18) as
+regulation ended 1-1, and nothing else. Reproduce:
 
 ```bash
 python3 detector/sharp_detect.py replay captures/sample-odds-stream.jsonl
@@ -70,7 +70,7 @@ python3 detector/sharp_detect.py params
 ## Ops notes
 - Credentials: `TXLINE_API_TOKEN` env in the agent container; JWTs are
   ephemeral and cached in `/tmp`.
-- The scheduled task runs every few minutes during match windows; "no alerts"
-  produces no message (silence is a feature).
+- The scheduled task runs hourly (per-minute cadence during match windows is
+  on the roadmap); "no alerts" produces a single short line (silence is a feature).
 - Detector state (debounce) persists at `/opt/data/memories/` (GCS-backed, so
   it survives container restarts).
