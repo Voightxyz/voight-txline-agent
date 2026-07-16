@@ -21,10 +21,11 @@ calibration ledger.
 2. [Verify it yourself](#verify-it-yourself-2-minutes-no-keys-needed)
 3. [The detector](#the-detector)
 4. [Data and methodology](#data-and-methodology)
-5. [Track record](#track-record)
-6. [Live deployment](#live-deployment)
-7. [Repository layout](#repository-layout)
-8. [Roadmap](#roadmap)
+5. [On-chain pick attestation](#on-chain-pick-attestation)
+6. [Track record](#track-record)
+7. [Live deployment](#live-deployment)
+8. [Repository layout](#repository-layout)
+9. [Roadmap](#roadmap)
 
 ---
 
